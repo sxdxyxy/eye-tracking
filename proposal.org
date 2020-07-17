@@ -1,0 +1,560 @@
+# #+include:./head.org 
+#+TITLE: 面向虚拟驾驶工效的水电工程施工道路几何参数优化研究
+#+latex_class: ctguthesis
+#+latex_class_options: [degree=doctor,fontset=windows]
+#+author: 余晓云
+#+setupfile: ./ctguthesissetup.org
+# #+SETUPFILE: ./setup.org
+# #+SETUPFILE: https://fniessen.github.io/org-html-themes/setup/THEME-NAME.setup
+#+exclude_tags: journal noexport ignore
+
+#+BEGIN_EXPORT latex
+% 使用授权的说明
+\copyrightpage
+
+\frontmatter
+\input{data/abstract.tex}
+
+% 目录
+\tableofcontents
+
+% 符号对照表 
+% \input{data/denotation}
+
+% 正文部分
+\mainmatter
+#+END_EXPORT
+
+* 绪论
+  DEADLINE: <2020-02-15 Sat>
+  :LOGBOOK:
+  CLOCK: [2020-02-14 Fri 19:07]--[2020-02-14 Fri 19:08] =>  0:01
+  :END:
+** 研究目的及意义
+*** 施工安全风险的需要
+
+  水利工程施工现场几乎都是大型机械化作业，在有施工道路条件的情况下，施工中物料的运送工具主要是自卸车，自卸车的安全运营主要靠驾驶员以及驾驶员对道路的适应性上，驾驶员对信息的感知有 90%来自于视觉，视觉是导致现场作业人员安全事故的主要致因。
+
+  大型水利水电工程施工涉及大量的高强度土石方运输作业，施工道路规划设计不仅影响施工效率，而且影响施工安全。由于土石方运输作业环境复杂、车辆操控难、临时人员多等原因，导致安全事故频繁发生。例如某水电工程土石方运输过程中，由于路况较差，驾驶员为赶工，导致自卸车相撞、2人重伤、车辆损毁的安全事故发生，如图[[ref:fig:accident][某水电工程土石方运输安全事故现场]]所示。
+
+  #+DOWNLOADED: /Users/daniel/git/Eye-tracking in construction safety/screensnapshot/accident.png @ 2020-01-23 15:31:09
+  #+CAPTION: 某水电工程土石方运输安全事故现场
+ #+name:fig:accident
+  #+ATTR_LaTeX: :width 0.8\textwidth :float t
+  [[file:绪论/2020-01-23_15-31-09_accident.png]]
+
+  在土石方运输作业系统中，人、车、路、交通环境组成驾驶工效场景，其中人是核心要素。要使施工道路运行达到安全、畅通、舒适、经济、低公害的目的，必须以人为本，从系统的观点出发使人、车、路、交通环境等要素相互协调。《公路项目安全性评价规范》（JTG B05-2015）明确指出：“从公路使用者的角度，按一定的评价程序，采用定性和定量的方法，对公路交通安全进行全面、系统的分析和评价”；《水利水电工程场内施工道路技术规范》（DL/T5243-2010）仅规定了视距、转弯半径、加宽、超高等几何参数cite:ShuiDianShuiLiGongChengChangNeiShiGongDaoLuJiZhuGuiFan2010 。可见，现行规范未考虑施工使用者的人因特性、未考虑驾驶人对驾驶环境的心理期望要求、未考虑驾驶人的视觉感知、操作反应等行为因素。
+
+ 水利水电工程施工多是机械化作业，大型施工机械作业人员操作机械是未来施工的主要力量，施工作业人员的安全作业环境研究和改善，是有效防范安全事故发生的手段。基于施工道路虚拟行车环境与驾驶人的交互作用，探究不同施工道路工况下驾驶人的眼动规律，建立不同线形组合下的驾驶人视距期望函数，构建施工道路几何参数和驾驶人主观视距的关系模型，探究施工道路几何参数设计的人-车-路-环匹配规律，反演分析施工道路规划设计几何参数，弥合施工道路线形理论设计与现实需求的差距，为施工道路规划设计与运管安全性评价提供理论依据。
+*** 施工现场驾驶与普通道路驾驶的区别
+
+**** 心理负荷不同
+
+**** 低速重载
+
+**** 道路条件不同
+
+**** 虚拟现实技术的利用
+     
+#+DOWNLOADED: https://image.cnki.net/tempfile/GLGL201912043_01600_w.jpg @ 2020-01-29 19:36:50
+#+CAPTION: VR 施工场地布置辅助系统 \label{fig:vrsite}
+#+ATTR_LaTeX: :width 0.8\textwidth :float t :options  
+[[file:绪论/2020-01-29_19-36-49_GLGL201912043_01600_w.jpg]]
+
+** 国内外研究现状
+*** 施工安全管理
+     :LOGBOOK:
+     CLOCK: [2020-02-18 Tue 00:41]--[2020-02-18 Tue 01:06] =>  0:25
+     CLOCK: [2020-02-17 Mon 23:55]--[2020-02-18 Tue 00:17] =>  0:22
+     CLOCK: [2020-02-09 Sun 08:54]--[2020-02-09 Sun 09:19] =>  0:25
+     :END:
+
+ 当前的安全管理已经由被动的安全预防转为主动的安全管理，cite:solihinClassificationRulesAutomated2015 ，Hassan Malekitabar  cite:malekitabarConstructionSafetyRisk2016 利用 BIM 技术在设计过程中的应用，为施工安全信息集成在设计模型中的信息中，其提供了五组可能影响事故可能性或后果的安全风险驱动因素，将其应用于建设项目中，为 40％以上的潜在死亡事故提供分析依据, 取得了较好的效果。
+
+ “风险驱动”和“风险源”是两个互相交互的概念，通常可以把危险源看成不断产生危险的土壤，但是风险驱动则是引起事故的一个事件或者条件，当这个事件发生或者条件满足，则事故必然发生。
+ 
+ 建筑信息模型技术能够在安全风险发生之前对风险进行检测和干预。利用基于建筑信息模型技术的工具对照安全规范检测信息模型，可以降低大部分的安全事故风险。
+
+ 张世杰等cite:zhangMoNiJiaShiHuanJingXiaJiaShiRenFenXinZhuangTaiPanBie2018 开发了一个基于规则的系统，该系统可以在特定的里程碑自动检查常规建筑物的 3D 模型，以检查是否按照职业安全与健康管理局（OSHA）的要求采取了防坠落措施。 正如作者指出的那样，开发此类系统时的主要问题是对规则的手动解释，这些规则必须翻译为机器语言。
+
+*** 道路安全设计
+ 
+ 对于道路安全和设计，赵亮cite:zhaoNongCunGongLuFuZaTiaoJianXiaJiaShiRenDianXingShengLiXinLiZhiBiaoBianHuaGuiLuJiJiaShiXingWeiYanJiu2018 对农村公路复杂条件下驾驶人典型生理心理指标变化和驾驶人行为进行了研究。任园cite:renGongLuWanDaoLuDuanXingCheWeiXianQuYuJiJiaShiXingWeiMoXingYanJiu2011 对公路弯道路段行车危险区域及驾驶行为模型进行了研究。 利用建筑信息模型技术（BIM）对施工现场道路进行三维建模并参数化，会得到比较直观的效果。
+
+秦涛cite:qinJiYuBIMDeDaoLuXinXiMoXingCanShuHuaGouJianJiZhuYanJiu2017 建立道路信息模型（RIM），实现道路宏微观相结合的道路可视化表达，重点论述了道路信息模型参数化构建技术,实现了道路信息模型快速构建。
+
+黄骞等cite:huangQingXieSheYingJiZhuZaiGongLuKanChaSheJiZhongDeYingYongChuTan2018 利用倾斜摄影技术进行公路设计，探讨倾斜摄影三维建模技术应用于公路勘察设计的技术框架、应用方法。倾斜摄影基于无人机等航空载具拍摄的多视角影像自动化生成地形数字模型,具有低成本、高灵活特点,应用于"预可-采集建模-工可-两阶段设计"公路勘察设计全工作流程。结合视觉三维重建、虚拟现实仿真展示和其他辅助技术等关键技术,可在选线、平纵横设计、多方案比选和综合评价展示中提高自动化率、准确度与评估核算精度。
+
+*** 驾驶员安全行为研究
+
+当前普遍利用眼动仪来研究安全行为cite:liYanDongYiZaiRenZhiXingWeiShiYanZhongDeYingYongJiXuanZe， 李文删总结了当前眼动追踪技术对于不同的实验范式和实验场景、眼动仪的选择、眼动应用实验的研究范式,并选取业内最具代表性的 SR 公司的 EyeLink 系列和 Tobii 公司的 Tobii 系列眼动仪最新款产品。孙楚怡cite:chuyisunYanDongZhuiZongShuJuDeKeShiHuaFangFa2019 提出了眼动仪数据可视化方法，为本研究提供了参考。张昀利用 matlab 建模方法对眼动数据进行分析cite:zhangShiXianGenZongJiZhuJiJiYuMatlabDeYanDongRenYinShiYanKaiFaHeJianMoFangFa2014。
+
+张辉等cite:zhangMoNiJiaShiHuanJingXiaJiaShiRenFenXinZhuangTaiPanBie2018 为了探寻驾驶人分心判别方法,构建了驾驶人分心状态判别模型。首先设计分心模拟驾驶试验,采集正常驾驶和发送语音信息过程中的驾驶绩效特征和驾驶人眼动特征数据,建立驾驶人分心状态判别指标备选集;其次,采用基因选择算法对备选指标进行筛选,得到 29 个备选指标的重要度排序;然后,依次选取重要度较高的部分指标作为 BP 神经网络的输入指标,利用遗传算法(GA)全局搜索的性能优化 BP 神经网络的初始权值和阈值,将优化后的 GA-BP 神经网络作为弱分类器,再将多个弱分类器组合成 Adaboost 强分类器,建立基于 Adaboost-GA-BP 组合算法的驾驶人分心状态判别模型。
+
+驾驶员的注视持续时间、水平和垂直方向视觉搜索广度、扫视幅度和扫视速度均随着交通环境的改变而变化，复杂公路（纵坡以及平曲线复杂的施工道路）上驾驶员水平方向视觉搜索广度明显高于其它道路, 山区公路上坡路段垂直方向视觉搜索广度最大。cite:guoJiaoTongHuanJingJiJiaShiJingYanDuiJiaShiYuanYanDongHeGongZuoFuHeYingXiangDeYanJiu2009 
+
+**** 道路弯道 
+
+**** 道路标识系统
+张殿业等cite:zhangDaoLuBiaoXianDuiJiaShiXingWeiMoShiDeYingXiang2001 对道路标线对驾驶行为模式的影响进行了研究，研究结果表明，车辆在有边缘线的道路上行驶比在仅有中心线或无标线的道路上行驶时更居中 ,尤其是在晚间行车时。边缘线能促使驾驶员准确、稳定驾驶 ,提高交通安全度。对驾驶员心率变异系数和稳定性测试表明 ,在有边缘线的道路上行驶不易疲劳。刘兵等cite:liuFeiDuiChengBianYuanLuBiaoXianDuiWanDaoJiaShiRenHengXiangWeiZhiDiaoZhengDeYingXiangJiLi2015 为了揭示非对称边缘率标线对弯道驾驶人横向位置调整的影响机理,在高速公路弯道上开展路上试验,实验结果表明:驾驶人偏离感知速度大的一侧，驾驶人通过降低车速来减小内外侧感知速度差异,内外侧感知速度差异越大,减速幅度越大,越偏向曲线内侧，两侧感知速度差异增大能提高驾驶人弯道车速危险性感知,使驾驶人降低车速进而影响车辆横向位置，边缘率标线通过增大驾驶人感知速度间接影响车辆横向位置，各路径影响效果合成后，驾驶人整体上偏离速度感知大的一侧。
+
+**** 道路纵坡
+徐进等cite:xuShanQuGongLuZongPoDuanJiaShiRenJiaoCaoZongTeZhengJiJiaShiFuHe2018 对山区公路纵坡段驾驶人脚操纵特征及驾驶负荷进行了研究，证明了下坡路段由制动踏板操作产生的体力负荷更高，纵波的加速踏板和制动踏板的作用力反应了驾驶员的心理不同压力负荷。踏板力仍是能够较好表征驾驶人精神负担的指标参数，曲线比例大、纵面高差和坡度值频繁变化。
+
+*** 驾驶员工作空间研究
+
+徐立友等cite:xuJiYuRenTiCeLiangXueDeTuoLaJiJiaShiYuanGongZuoKongJianSheJi2016 针对中国拖拉机驾驶员工作空间设计在操纵性、舒适性、方便性和安全性等方面存在的不足,从人机工程学角度出发,基于中国成年男性人体测量尺寸,计算出设计所需的 28 项人体主要尺寸的平均值、标准差和百分位数值,建立了拖拉机驾驶员人体关节生物力学模型,确定了模型中连接与人体测量尺寸的数值关系。以乘坐基准点为参考,对驾驶员工作空间内的座椅、踏板、转向盘、变速杆、液压操纵杆和仪表盘等进行了设计布置。徐进等cite:xuJiYuZiRanJiaShiShiYanDeShanQuGongLuQiCheXingShiGuiJiTeXingYanJiu2016 对自然驾驶试验的山区公路汽车行驶时，驾驶员脚的工作负荷进行了研究。
+
+*** 虚拟驾驶技术应用
+
+Vahdatikhaki cite:vahdatikhakiDataVisualizationContextrealistic2019 提供了一种利用可视化方法建立模型研究的思路。
+
+** 研究方法和主要研究内容
+*** 研究方法
+**** BIM 技术施工道路场景再建
+通过无人机倾斜摄影建模技术，还原真实道路场景，并将道路模型导入到模拟驾驶台，通过组织大量的实验室实验研究驾驶员对道路的适应情况。
+**** 人体工效学研究
+通过对驾驶室座位的研究，确定安全性。
+**** 眼动追踪技术
+     :LOGBOOK:
+     CLOCK: [2020-02-14 Fri 16:51]--[2020-02-14 Fri 17:16] =>  0:25
+     :END:
+
+眼动追踪技术是研究人的心理和行为的方式之一，眼动追踪技术在研究驾驶员的行为适应施工道路条件问题上比较灵活方便。通常情况下我们需要研究眼动的几个主要技术指标：
+
+***** 注视点（Fixation）和采样点
+      :LOGBOOK:
+      CLOCK: [2020-02-13 Thu 17:37]--[2020-02-13 Thu 18:02] =>  0:25
+      :END:
+
+也称为注视固定，这一名词代表的是注视点的集合。注视点是基于指定的聚合区域和时间跨度而产生的。聚合区域通常约为 20 到 50 像素，时间跨度介于 200 到 300 毫秒之间。用于注视的常见指标是注视计数（即注视次数）， 注视持续时间 （以毫秒为单位），注视位置（以像素的 x 和 y 坐标表示），注视密度和重复注视等。
+ 
+当我们使用眼动追踪时，注视点（Fixation）是感兴趣的基本输出量度，通常是最常用的术语之一。注视点能够显示眼睛正在看什么目标。如果您的眼动仪以 1000 Hz 的采样率收集数据，在最终的数据中将获得每秒 1000 个单独的采样点，也可以称为凝视点。如果一系列采样点非常接近 - 在时间和 / 或空间中，该凝视簇构成固定的注视点，表示眼睛正锁定在该目标上。
+
+
+
+#+DOWNLOADED: https://pic1.zhimg.com/v2-62225034886fd7f7fd3eb3579e5b5384_r.jpg @ 2020-01-22 08:46:14
+#+NAME: fig:fixation
+#+ATTR_LaTeX: :caption \bicaption[fig:fixation]{图}{注视点示意图}{Figure}{fixation}  :width 0.8\textwidth :float  t
+  [[file:绪论/2020-01-22_08-46-14_v2-62225034886fd7f7fd3eb3579e5b5384_r.jpg]]
+
+***** 眼跳（Saccade） 
+
+也称为扫视，它描述了从一种注视到另一种注视的快速眼动。它们通常持续约 30 到 80 毫秒，是人体可以执行的最快运动。在这段时间内，视觉信息被抑制。典型的量度是振幅，以毫秒为单位的扫视持续时间， 以及在每秒度扫视速度。
+
+两个注视点之间的眼睛运动通常被称为眼跳。如上图，当我们再阅读句子或者文章时，我们的眼睛并不能顺利地进行下去，而是将眼睛锁定在每 7-9 个英文字母上（当然也取决于字体类型和大小，中文 1-2 个汉字）。这是因为人眼的中央 “视觉范围” 决定的，“视觉范围”是指我们可以在当前固定的单词之前和之后阅读多少单词，更专业的术语解释是由于中央凹、副中央凹和眼球周围神经所决定的。
+
+
+   #+DOWNLOADED: https://pic3.zhimg.com/v2-5d3723208ff0c5f51fd90fa32c42d10a_r.jpg @ 2020-01-22 08:41:39
+#+ATTR_LaTeX: :caption \bicaption[fig:saccade]{图}{眼跳示意图}{Figure}{saccade} :width 0.8\textwidth :float t :options scale=0.75 
+   [[file:绪论/2020-01-22_08-41-39_v2-5d3723208ff0c5f51fd90fa32c42d10a_r.jpg]]
+
+眼跳的解读反应着眼球运动的轨迹如何变化，注视的位置是否发生改变，这是在眼动追踪中空间上的指标体现。
+
+***** 热图
+
+热图是可视化，显示注视点的总体分布情况。它们通常在所呈现的图像或刺激上显示为颜色梯度叠加。红色，黄色和绿色按降序表示指向图像部分的注视点的时间长度，颜色越红表示眼球注视该目标的时间越长。使用热图是一种比较直接的指标，可以快速可视化哪些元素比其他元素更受关注。可以在单个受访者和参与者组之间比较热图，这有助于了解不同人群如何以不同的方式查看目标刺激的。
+
+   #+DOWNLOADED: https://pic1.zhimg.com/v2-09920a2f52f1d1ae488917ea9417cfb0_r.jpg @ 2020-01-22 08:43:51
+   #+ATTR_LaTeX: :caption \bicaption[fig:hotarea]{图}{热图}{Figure}{Heatmap}  :width 0.8\textwidth :float t, :options scale=0.75
+   [[file:绪论/2020-01-22_08-43-49_v2-09920a2f52f1d1ae488917ea9417cfb0_r.jpg]]
+
+***** 感兴趣区（Interest Area 简写 IA）
+
+感兴趣区是选择一个显示的刺激目标区域，并且专门在该区域提取的一些眼动指标来进行统计学分析。虽然这不是严格意义上的度量标准，但它定义了计算眼动指标度量标准的区域。有时候也称为兴趣领域（AOI），它是指在实验中，通常用户可能会有不同行为模式的区域，将呈现给参与者的刺激内容分区。在三维空间的刺激中，兴趣区域也可以是感兴趣的模型或对象。对于动态刺激，研究人员必须定义动态兴趣区域，但是兴趣区域可以在眼睛追踪实验之前或之后创建，可以根据研究需要调整。通常，兴趣区域是基于刺激内容的语义信息创建的。研究人员往往会关注，从一个兴趣区域到另一个兴趣区域的移动，我们称之为过渡。兴趣区域的典型指标是过渡计数，在兴趣区域内的停留时间（以毫秒为单位）以及兴趣区域的命中值，该值定义了注视点是否在兴趣区域内。
+
+
+#+DOWNLOADED: https://pic3.zhimg.com/v2-08bb682985cf95fadc14bd5a8ae5139a_r.jpg @ 2020-01-22 08:44:47
+#+ATTR_LaTeX: :caption \bicaption[fig:interestarea]{图}{感兴趣区}{Figure}{interest area} :width 0.8\textwidth :float t
+[[file:绪论/2020-01-22_08-44-47_v2-08bb682985cf95fadc14bd5a8ae5139a_r.jpg]]
+
+如上图，如果我们想要查看眼睛注视马头和人坐位置区域的信息，则可以分别在上图中在马头和人位置上绘制单独的 IA 区域。然后，我们就能够分别显示每个区域的指标，例如从刺激开始到参与者查看该区域的时间，参与者在该区域花费了多少时间，有多少人将视线移开然后回来。在评估同一视频，图片，网站或程序界面中两个或多个区域的性能时，这些指标都会非常有用。
+
+***** 首次注视时间（First Fixation time）
+
+首次注视时间是落在兴趣区（IA）上的第一个注视点的持续时间。首次注视时间是眼动指标中，时间上重要的参考指标之一，尤其在阅读研究中显得更为重要，它反应着眼球注视阅读时的词汇通达的早期特征。在其它视觉场景（广告、工业设计等）上，它也被用来提供关于视觉场景的某些方面如何被优先化的信息提取。
+
+#+DOWNLOADED: https://pic1.zhimg.com/v2-82d45ccd4f8c68d7849239b9ed83dee8_r.jpg @ 2020-01-22 08:45:24
+#+NAME:fig:firstfixationtime
+#+ATTR_LaTeX: :caption \bicaption{图}{首次注视时间}{Figure}{First Fixation Time} :width 0.8\textwidth :float t
+[[file:绪论/2020-01-22_08-45-24_v2-82d45ccd4f8c68d7849239b9ed83dee8_r.jpg]]
+
+***** 比率（rate）
+
+当我们在做视觉场景刺激时，由于视觉的加工难度，参与者会通过眼跳（saccade）来进行扫视。在视觉场景中的比率是指参与者注视在目标兴趣区内的注视信息与其余非目标区域的比重，在广告、网页设计上常用来量化人眼对事物的集中表现加工。它可以揭示视觉场景上的哪些部分对不同参与者更具吸引力。
+
+在阅读中的比率其实可以指代为跳读率（Skipping rate）：是指目标兴趣区会有多大的概率被跳读，在已有的研究中，研究者发现词长和单词在句中的高低预测性对跳视率有重要的影响。跳视率在阅读研究中，可以揭示眼球注视加工词语的熟悉程度，熟悉性的高低。
+
+***** 回视次数（regression count）
+
+回视次数反映了参与者对之前信息的再加工过程，它提供了有关参与者将注视返回到由所定义的兴趣区的特定目标上的次数信息，这将允许研究人员检查哪些区域反复吸引着参与者（无论好坏），哪些区域被看到，然后被移动。虽然眼动追踪无法告诉研究人员参与者在看某事时的心理感受，但它可以为研究提供有关详细的信息加工数据，进而可以进一步分析数据。
+
+***** 平均注视时间或总注视时间
+
+在平均注视时间中，它显示了参与者在某目标上平均注视持续了多久，它可以为个人或团体确定一个衡量标准，在任何一种情况下，这都可以作为基线测量有用，但也可以通过刺激目标来观察。如果某张图导致的平均注视持续时间远远高于另一幅图，则可能值得探究其原因。此外，通过对兴趣区的比较，也可以确定哪些区域实际上比其它区域更重要。如果您正在尝试传达消息，那么相对于其它区域，您最有可能希望平均注视持续时间在具有该消息的区域内更高。
+
+总注视时间是不区分首次注视时间和第二次甚至多次加工时间，它更多的指在兴趣区内或者是单个目标上的所有注视时间的总和，它反映的是总体时间上的加工信息。也就是总注视时间的长短也反映着认知加工过程的快慢。
+
+通过研究眼动数据的这几个指标，获得自卸车驾驶员对道路适应性的分析，从而改进道路的设计。
+
+
+**** GPS 位置信息采集
+通过 GPS 专用数据采集软件采集到数据项目,包括样本点采集时间、海拔高度、经纬度、速度和行驶距离等。通过对 GPS 数据的处理, 可以实现对车辆运行速度的分析,确定任意时刻或地点施工车辆运行速度和加速度、运行线路等。
+*** 主要研究内容 
+**** 施工场地 BIM 建模
+**** 驾驶室空间 BIM 建模
+**** 自卸车驾驶员安全行为研究
+**** 施工场地道路设计
+**** 自卸车驾驶员施工安全预测模型
+
+** 论文的组织
+本研究围绕着施工现场自卸车运行环境、自卸车驾驶员、自卸车的运行效率为主要研究对象，运用眼动数据采集设备分析驾驶员在实际活着模拟驾驶环境下的心理状态，以期改善驾驶环境和道路环境，利用建筑信息模型（BIM）技术模拟自卸车的真实运行场景，并调整运行环境的各种变量（包括平曲线半径、纵坡率、速度、光照等）。
+
+#+NAME: fig:techrouting
+#+DOWNLOADED: /Users/daniel/git/Eye-tracking in construction safety/charts/研究路线.png @ 2020-01-23 01:10:12
+#+ATTR_LaTeX: :caption \bicaption{图}{技术路线}{Figure}{Research Route} :width 0.8\textwidth :float  t  
+[[file:绪论/2020-01-23_01-10-12_研究路线.png]]
+
+*** 本研究主要仪器设备
+
+**** 眼动数据采集系统
+ 眼动数据采集系统包括 Tobii Pro 眼动追踪硬件和软件，其中 Tobii Pro Glasses 2 眼动仪是带有无线实时观察功能的可穿戴式眼动仪，能够提供真实视域。Tobii Pro Lab 软件功能覆盖整个研究过程的软件-从眼动追踪实验设计和数据采集到结果的诠释和呈现。因此，融合眼动追踪、模拟驾驶设备和行为采集技术，可以创建道路驾驶情景可穿戴操作的虚拟实验仿真平台。为基于 BIM 场景虚拟驾驶行为的施工道路反演规划设计提供研究支撑。
+
+#+DOWNLOADED: https://pic2.zhimg.com/v2-ee8f27265dd2d6fcb75c5514ff9a1c3d_r.jpg @ 2020-01-26 22:20:54
+#+NAME: fig:tobiipro
+#+ATTR_LaTeX: :caption \bicaption{图}{Tobii Pro 眼动追踪系统}{Figure}{tobiipro} :width 0.8\textwidth :float t
+[[file:绪论/2020-01-26_22-20-53_v2-ee8f27265dd2d6fcb75c5514ff9a1c3d_r.jpg]]
+
+**** 地形数据采集系统
+
+**** 模拟驾驶系统
+本研究的模拟驾驶系统来自于安全功效研究实验室的自卸车模拟驾驶系统。
+*** 论文的主要结构
+**** 第一章 绪论
+**** 第二章 施工道路参数化模型
+**** 第三章 施工路段驾驶员行为数据采集与分析 
+**** 第四章 施工驾驶员行车风险机理及特征
+**** 第五章 施工道路设计优化
+* 施工道路参数化模型
+  :LOGBOOK:
+  CLOCK: [2020-02-09 Sun 09:25]--[2020-02-09 Sun 09:50] =>  0:25
+  :END:
+
+倾斜摄影技术是近几年出现的新型航空遥感技术，该技术以无人机低空拍摄照片方式获取调查区域高分辨率全要素地理信息，可快速、高效地获取目标物侧面及顶面信息，结合实时定位技术和三维重建技术生成真实三维模型。
+
+** 倾斜摄影
+
+实验中选择大疆无人机，设定倾斜摄影范围，拍摄施工现场，并建模。作业之前，需要选定实验所需场地的空间信息，本文研究选取的是某工地的施工，如图[[ref:fig:sitemap][施工现场]]所示。
+
+#+DOWNLOADED: file:/Users/daniel/Downloads/截屏2020-02-09上午11.28.58.png @ 2020-02-09 11:29:16
+#+NAME: fig:sitemap
+#+ATTR_LaTeX: :caption \bicaption{图}{施工场地选择}{Figure}{site map} :width 0.8\textwidth :float t
+[[file:施工道路参数化模型/2020-02-09_11-29-16_截屏2020-02-09上午11.28.58.png]]
+
+
+** 三维地形建模
+
+** 道路信息的提取
+** 模型参数化
+施工场景构建以后，需要对场景进行参数化的操纵。 
+* 施工路段驾驶员行为数据采集与分析
+** 实验设计与实验方案
+*** 实验场地选择
+ 本实验选择一个实际的土石方运输工地（道路施工或者水利工程施工）,如图所示。
+
+根据水电工程施工现场道路设计规范的要求，对道路设计的最大纵坡，平曲线半径以及停车视距都有明确的规定，但是对施工道路没有明确的说明，如[[ref:fig:roadstandard][施工道路设计规范]]。
+
+#+DOWNLOADED: /Users/daniel/git/Eye-tracking in construction safety/screensnapshot/截屏2020-01-23上午2.18.34.png @ 2020-01-23 02:19:16
+#+NAME: fig:roadstandard
+#+ATTR_LaTeX: :caption \bicaption[fig:roadstandard]{图}{现有施工道路设计规范参数}{Figure}{Parameters of Construction site road base on standard}  :width 0.8\textwidth :float t
+[[file:实验设计与实验方案/2020-01-23_02-19-16_截屏2020-01-23上午2.18.34.png]]
+
+在土石方运输作业系统中，人、车、路、交通环境组成驾驶工效场景，其中人是核心要素。要使施工道路运行达到安全、畅通、舒适、经济、低公害的目的，必须以人为本，从系统的观点出发使人、车、路、交通环境等要素相互协调。《公路项目安全性评价规范》（JTG B05-2015）明确指出：“从公路使用者的角度，按一定的评价程序，采用定性和定量的方法，对公路交通安全进行全面、系统的分析和评价”；《水利水电工程场内施工道路技术规范》（DL/T5243-2010）仅规定了视距、转弯半径、加宽、超高等几何参数。可见，现行规范未考虑施工使用者的人因特性、未考虑驾驶人对驾驶环境的心理期望要求、未考虑驾驶人的视觉感知、操作反应等行为因素。
+
+#+BEGIN_SRC shell :exports none
+  montage -font FangSong -frame 1  -label %f -tile 2X1 -geometry 600x480! a.\ 施工现场三维模型（材质模式）.png b.\ 施工现场三维模型（线框模式）.png constructionsitemodel.png
+
+  convert image -density 300 -units pixelsperinch outimage
+
+#+END_SRC
+
+#+results:
+
+*** 无人机倾斜摄影建模
+*** 场地模型参数调整
+*** 场地模型导入虚拟驾驶仪器方便测试
+
+*** 眼动实验
+
+**** 眼动实验数据采集
+
+ 眼动数据研究主要是研究被研究者的注意力行为，眼动信号分析的目标就是对典型的眼动过程进行特征化，比如眼跳、注视等特征。
+***** 被试人员选择
+根据施工道路作业人员的基本要求选定测试人员，根据《道路交通安全法》的相关规定，申请城市公交车、中型客车、大型货车、无轨电车或者有轨电车准驾车型的，应当在 21 周岁以上，50 周岁以下，申请大型客车、牵引车、城市公交车、大型货车、无轨电车准驾车型的，身高为 155 厘米以上；
+***** 车辆选择
+本文的研究选择矿山自卸车，矿山自卸车属于非公路自卸车，是在非公路的野外场地，如大型露天矿、水利工程中，用于运输煤矿、沙石的自卸车。在土木工程中，经常与挖掘机、装载机、带式输送机等工程机械联合作业，构成装、运、卸生产线，进行土方、砂石、散料的装卸运输工作。由于矿山自卸车的巨大尺寸与全重，其驾驶员的视野非常受限。因此在其作业区域内的其他传统汽车（如皮卡、SUV、普通卡车）必须随车树立一根 5-6 米高的旗杆，上面挂上红旗，用以提示矿山自卸车的驾驶员注意避让。
+
+
+#+DOWNLOADED: file:/Users/daniel/Downloads/IMG_8063(20191212-172049).JPG @ 2020-02-03 12:36:50
+#+ATTR_LaTeX: :caption \bicaption[fig:sitepictures]{图}{现场实况}{Figure}{site } :width 0.8\textwidth :float t 
+#+NAME: fig:sitepictures
+[[file:施工路段驾驶员行为数据采集与分析/2020-02-03_12-36-50_IMG_8063(20191212-172049).JPG]]
+
+
+***** 现场测试
+在现场，我们选取了黑虎山的公路施工现场，并做了 3 组实验，其现场如[[ref:fig:constructionsite][施工现场图]]，试验现场用无人机倾斜摄影技术建模，并进行了处理，如[[ref:fig:sitemodel][倾斜摄影建模]]。
+
+#+DOWNLOADED: file:/Users/daniel/Downloads/new.jpg @ 2020-02-03 13:05:05
+#+ATTR_LaTeX: :caption \bicaption{图}{施工现场实景}{Figure}{construction site} :width 0.8\textwidth :float t 
+#+name: fig:constructionsite
+[[file:施工路段驾驶员行为数据采集与分析/2020-02-03_13-05-05_new.jpg]]
+
+
+#+DOWNLOADED: file:/Users/daniel/Downloads/constructionsitemodel.png @ 2020-02-03 19:10:38
+#+ATTR_LaTeX: :caption \bicaption {图}{无人机倾斜摄影建模模型}{Figure}{Site Model} :width 0.8\textwidth :float t 
+#+NAME: fig:sitemodel
+[[file:施工路段驾驶员行为数据采集与分析/2020-02-03_19-10-38_constructionsitemodel.png]]
+
+
+
+通过分析，发现在同一条施工道路上，不同的测试者在关注平面上的注视区域有显著的区别。
+
+#+BEGIN_SRC shell :exports none
+  cd figures
+  #剪切图片大小
+  mogrify -crop 2150X1200+5+5 +repage focus\ heatmap\ 2.53.png focus\ heatmap\ 3.05.png focus\ heatmap\ 3.19.png focus\ heatmap\ 3.31.png focus\ heatmap\ 3.43.png focusheatmap-comparation.png
+  #拼合图片
+  montage  -frame 5 -font FangSong -pointsize 100  -label %f -tile 2X2 -geometry 2150x1200 -resize 20% focus\ heatmap\ 3.05.png focus\ heatmap\ 3.19.png focus\ heatmap\ 3.31.png focus\ heatmap\ 3.43.png  focusheatmap-comparation.png
+#+END_SRC
+
+
+#+DOWNLOADED: file:/Users/daniel/Nextcloud/Writing/git/Eye-tracking in construction safety/figures/focusheatmap-comparation.png @ 2020-02-12 23:59:42
+#+ATTR_LaTeX: :caption \bicaption{图}{不同测试者对同一道路驾驶的关注平面比较}{Figure}{Focus Area between participates} :width 0.8\textwidth :float t 
+#+NAME: fig:focus-comparation
+[[file:施工路段驾驶员行为数据采集与分析/2020-02-12_23-54-26_focusheatmap-comparation.png]]
+
+
+
+***** 虚拟场景测试（驾驶模拟器测试）
+
+**** 眼动实验数据的分析处理
+** 数据采集
+*** 实验总体方案
+*** 实验场景选择和构建
+*** 现场试验
+*** 模拟驾驶试验
+** 驾驶员心理状态分析
+
+不同道路类型、不同交通复杂程度给驾驶员造成的心智努力和工作负荷不同, 工作负荷高会导致驾驶员的紧张程度增加,驾驶员易于疲劳,过高的工作负荷还与高事故率相关联。本文讨论试验采集的驾驶员生理指标中哪些反映了驾驶员的工作 负荷,分析道路类型如交叉口和路段,平面交叉口与立体交叉口等对驾驶员工作负荷的影响,以及在相同道路环境下熟练程度对驾驶员工作负荷的影响,最后讨论反映驾驶员工作负荷的眼动行为和眼动参数。
+*** 视野平面划分
+通常情况下我们需要将眼睛注视区域分为 9 个区域, 如图[[ref:fig:focusarea]]所示。
+
+#+DOWNLOADED: file:/Users/daniel/Nextcloud/Writing/git/Eye-tracking in construction safety/screensnapshot/截屏2020-02-02下午4.32.23.png @ 2020-02-02 16:33:39
+#+name: fig:focusarea
+#+ATTR_LaTeX: :caption \bicaption {图}{注视区域分布图}{Figure}{Focus Area} :width  0.8\textwidth :float t
+[[file:施工路段驾驶员行为数据采集与分析/2020-02-02_16-33-39_截屏2020-02-02下午4.32.23.png]]
+
+*** 预瞄时间和驾驶负荷 
+
+** 不同纵坡状态下驾驶员行动轨迹分析
+
+** 不同平曲线半径驾驶员行为分析
+   DEADLINE: <2020-01-23 Thu>
+
+** 基于行驶速度驾驶员的行为分析
+
+** 基于道路状况的驾驶员行为分析
+
+* 施工道路驾驶员视觉特征规律
+  :LOGBOOK:
+  CLOCK: [2020-02-15 Sat 14:41]--[2020-02-16 Sun 01:27] => 10:46
+  :END:
+
+** 注视点关注分析
+
+*** 瞳孔变化率
+
+*** 注视点眼跳
+
+*** 累计注视时间
+
+*** 关注点分析
+*** 数据分析 
+
+#+BEGIN_SRC python
+  import matplotlib.pyplo
+#+END_SRC
+
+
+#+begin_src python :results file :exports results 
+  import matplotlib, numpy
+  import pandas as pd
+  from pandas import DataFrame
+  import pylab as pla
+  import matplotlib.dates as mdate
+  #热点图
+  import seaborn as sbn
+  #matplotlib.use('Agg')
+  import matplotlib.pyplot as plt
+  fig=plt.figure(figsize=(4,2))
+  ax= fig.add_subplot(111) #绘图布局
+  #ax.xaxis.set_major_formatter(mdate.DateFormatter('%Y-%m-%d')) #绘图时间格式
+  #Data file
+  rd="/Users/daniel/Nextcloud/Experiment/眼动实验/analysis/Data Export - yulaoshi/yulaoshi Recording042.tsv"
+  dateparse = lambda dates: pd.datetime.strptime(dates,'%Y-%m-%d')
+
+  #read data
+  data= pd.read_csv(rd,sep='\t', date_parser=dateparse, usecols=['Recording timestamp [μs]', 'Gaze point X [MCS px]', 'Gaze point Y [MCS px]'])
+
+  # change timeformat
+  #data['Recording timestamp [μs]']= pd.to_datetime(data['Recording timestamp [μs]'], format='%Y-%m-%d %H:%M')
+  table= pd.pivot_table(data, values='Gaze point X [MCS px]', index='Recording timestamp [μs]', aggfunc='count') # 统计分析
+
+  #data.plot(kind="scatter", x='Gaze point X [MCS px]', y='Gaze point Y [MCS px]')
+  #plt.heatmap(data[1,2])
+  ax.plot(table,color ='r')
+  #sbn.kdeplot(data[1,2])
+  plt.savefig('figures/python-matplot-fig.png')
+  return 'figures/python-matplot-fig.png' # return filename to org-mode
+#+end_src
+
+#+name:fig:distributiongazexy
+#+ATTR_LaTeX: :caption \bicaption{图}{视野平面分布}{Figure}{Distribution of eye sight} :width 0.8\textwidth :float  t
+#+results:
+[[file:figures/python-matplot-fig.png]]
+
+#+BEGIN_SRC python :tangle yes :exports results :results file 
+  import numpy as np
+  import matplotlib
+  import matplotlib.pyplot as plt
+  # sphinx_gallery_thumbnail_number = 2
+
+  vegetables = ["cucumber", "tomato", "lettuce", "asparagus",
+                "potato", "wheat", "barley"]
+  farmers = ["Farmer Joe", "Upland Bros.", "Smith Gardening",
+             "Agrifun", "Organiculture", "BioGoods Ltd.", "Cornylee Corp."]
+
+  harvest = np.array([[0.8, 2.4, 2.5, 3.9, 0.0, 4.0, 0.0],
+                      [2.4, 0.0, 4.0, 1.0, 2.7, 0.0, 0.0],
+                      [1.1, 2.4, 0.8, 4.3, 1.9, 4.4, 0.0],
+                      [0.6, 0.0, 0.3, 0.0, 3.1, 0.0, 0.0],
+                      [0.7, 1.7, 0.6, 2.6, 2.2, 6.2, 0.0],
+                      [1.3, 1.2, 0.0, 0.0, 0.0, 3.2, 5.1],
+                      [0.1, 2.0, 0.0, 1.4, 0.0, 1.9, 6.3]])
+
+
+  fig, ax = plt.subplots()
+  im = ax.imshow(harvest)
+
+  # We want to show all ticks...
+  ax.set_xticks(np.arange(len(farmers)))
+  ax.set_yticks(np.arange(len(vegetables)))
+  # ... and label them with the respective list entries
+  ax.set_xticklabels(farmers)
+  ax.set_yticklabels(vegetables)
+
+  # Rotate the tick labels and set their alignment.
+  plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
+           rotation_mode="anchor")
+
+  # Loop over data dimensions and create text annotations.
+  for i in range(len(vegetables)):
+      for j in range(len(farmers)):
+          text = ax.text(j, i, harvest[i, j],
+                         ha="center", va="center", color="w")
+
+  ax.set_title("Harvest of local farmers (in tons/year)")
+  fig.tight_layout()
+  fs='figures/python-heatmap.png'
+  plt.savefig(fs)
+  return fs
+#+END_SRC
+
+#+results:
+[[file:figures/python-heatmap.png]]
+
+
+** 典型环境下停车视距
+
+*** 正常驾驶视距
+
+*** 停车视距
+
+*** 转弯视距
+
+*** 超车视距
+
+*** 会车视距
+
+* 驾驶员行车风险机理以及特征
+** 施工场地自卸车驾驶员眼动特性研究
+*** 纵坡加速度特性的风险分析
+*** 弯道特性的驾驶风险分析
+*** 标示标牌反应的驾驶风险分析
+*** 
+** 眼动数据分析
+*** 注视固定研究
+*** 眼跳检测
+*** 三维眼动分析
+** 视觉认知与心理负荷研究
+   
+*** 危险行为的识别
+
+*** 风险的量化
+
+*** 驾驶员安全风险认知 
+
+* 施工道路几何线形反演分析以及优化设计
+** 施工道路主要技术参数优化
+*** 视距不良
+
+  停车视距（stopping sight distance）指的是同一车道上，车辆行驶时遇到前方障碍物而必须采取制动停车时所需要最短行车距离。停车视距可分解为反应距离、制动距离和安全距离等三部分来研究。简单的说，停车视距就是驾驶员在发现障碍物前停住所需要的最短距离。
+
+*** 平曲线半径
+
+  平曲线半径即圆曲线半径，当道路由一段直线转到另一段直线上去时，其转角的连接部分均采用圆弧形曲线，这种圆弧的半径称为平曲线半径。
+
+  平曲线由圆曲线和缓和曲线组成，部分道路没有缓和曲线。
+*** 纵坡
+
+  纵坡指的是路线纵断面上同一坡段两点间的高差与其水平距离之比，以百分率表示。顺着施工道路前进方向的上下坡，叫施工道路纵坡。它与自卸汽车的动力特性、安全特性有很大关系。施工道路纵坡包含最大纵坡、最小纵坡、最大（或陡坡）的缓坡，以及相应坡长。
+*** 平整度
+施工道路的平整度也影响自卸车的运行安全和效率。
+** 施工道路设施布置与优化
+*** 安全标识
+*** 灯光以及辅助设施
+** 施工道路速度设计
+*** 行驶速度的变化特性
+*** 行驶速度的离散程度
+* 结论和展望
+  :LOGBOOK:
+  CLOCK: [2020-02-16 Sun 22:44]--[2020-02-17 Mon 11:51] => 13:07
+  CLOCK: [2020-02-16 Sun 22:42]--[2020-02-16 Sun 22:43] =>  0:01
+  :END:
+施工道路设计参数和方案
+
+
+  bibliography:~/git/Eye-track.bib
+  bibliographystyle:super
+
+
+
+#+BEGIN_EXPORT latex
+%%% 其它部分
+%%\backmatter
+
+%% 致谢
+\input{data/ack.tex}
+
+%% 附录
+%%\begin{appendix}
+%%\input{data/appendix01}
+%%\end{appendix}
+
+%% 个人简历
+%% \include{./data/resume.tex}
+
+%% 本科生进行格式审查是需要下面这个表格，答辩可能不需要。选择性留下。
+% 综合论文训练记录表
+%% \includepdf[pages=-]{scan-record.pdf}
+#+END_EXPORT
