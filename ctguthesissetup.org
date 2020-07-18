@@ -19,10 +19,12 @@
 ** Headers
  #+LATEX_HEADER: \usepackage{natbib}
  #+latex_header: \usepackage{caption}
- #+latex_header: \usepackage{ccaption}
  #+latex_header: \usepackage{graphicx}
- #+latex_header: \captionsetup[figure][bi-first]{name=图}
- #+latex_header: \captionsetup[figure][bi-second]{name=Fig. }
+ # #+latex_header: \usepackage{epstopdf}  #not suitable for xelatex, only for pdftex,lulatex
+ # #+latex_header: \usepackage{ccaption}
+ #+latex_header: \usepackage{bicaption}
+ #+latex_header: \captionsetup[figure][bi-second]{name=Fig.} 
+ #+latex_header: \captionsetup[table][bi-second]{name=Tab.}
  #+latex_header: \usepackage{indentfirst}
  #+latex_header: \usepackage{glossaries}
  #+latex_header: \usepackage{gbt7714}

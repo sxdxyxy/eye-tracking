@@ -1,0 +1,37 @@
+#+latex_class:ctexbook
+#+latex_class_options: [utf8]
+#+LATEX_CLASS_OPTIONS:[a4paper]
+#+STARTUP: noinlineimages
+#+STARTUP: hideblocks
+#+LATEX_CLASS_OPTIONS:[12pt]
+#+OPTIONS: p:nil tex:t  ^:t
+#+LANGUAGE: zh_cn
+#+OPTIONS:   H:4 num:t toc:t \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:nil pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT:
+#+title: 面向虚拟驾驶工效的水电工程施工道路几何参数优化研究
+#+author: 余晓云  
+#+LATEX_HEADER: \usepackage{natbib}
+#+latex_header: \usepackage{caption}
+#+latex_header: \usepackage{ccaption}
+#+latex_header: \usepackage{graphicx}
+#+latex_header: \captionsetup[figure][bi-first]{name=图}
+#+latex_header: \captionsetup[figure][bi-second]{name=Fig. }
+#+latex_header: \usepackage{indentfirst}
+#+latex_header: \usepackage{glossaries}
+#+latex_header: \usepackage{gbt7714}
+#+latex_header: \makeglossaries
+#+latex_header_extra: \newglossaryentry{acronym}{name={acronym},description={An acronym is an abbreviation used as a word which is formed from the initial components in a phrase or a word. Usually these components are individual letters (as in NATO or laser) or parts of words or names (as in Benelux)}}
+#+latex_header_extra: \newacronym{tla}{TLA}{Three Letter Acronym}
+#+latex_header: \usepackage{geometry}
+#+LATEX_HEADER: \geometry{left=2cm,right=1.5cm,top=2.5cm,bottom=2.5cm}  %设置 上、左、下、右 页边距
+#+latex: \tableofcontents
+#+latex: \listoftables
+#+latex: \listoffigures
+
+

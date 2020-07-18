@@ -1,0 +1,41 @@
+#+include: ../head.org 
+#+latex_class: elsarticle
+#+latex_class_options:[5p] 
+#+latex_header: \bibliography{~/git/Eye-Track.bib}
+#+options: title:nil author:nil
+#+title:  Dumping truck driver's characteristic behaving based on eye-tracking analysis 
+#+Author: Xiaoyun Yu 
+#+BEGIN_abstract
+abstract
+#+END_abstract
+#+BEGIN_keyword
+eye-tracking, construction safety, hydraulic engineering 
+#+END_keyword
+#+include: ../authors.org
+* Introduction
+** Purpose
+Study on a dumping truck driver's driving behaver on the complex road condition is needed. for a large hydraulic construction site, a large amount of material transportation heavily rely on transfer of dumping truck, and on the meanwhile, the transportation condition is not as good as expected, how to improve transport efficiency and guarantee safety for dumping truck is a important aspect in construction projects. 
+
+The specific problems that need to be solved can be determined by carefully studying the accidents involving dumping trucks, in this theme, the human performance becomes the critical aspect of total things because of unusual demands of vehicle operate conditions. cite:hasanzadehExaminingRelationshipConstruction2018 
+*** Road way and conditions is critical, sharp turn and high latitude of upslope and downslope.
+
+
+** associate research
+
+*** drowsy driving 
+  many research based on eye tracking technology is focused on drowsy driving, driving fatigue.cite:xuRealtimeEyeTracking2018a cite:zandiNonintrusiveDetectionDrowsy2019a and speed driving on a normal road driving.
+
+*** mining truck driving
+the surface mining truck cite:sunGPSGoogleEarth2010
+     
+* Method
+* AI algorithm
+* Experiment setup 
+* Experiment Data analysis
+* Results
+* Conclusion and future research
+* References
+
+
+
+bibliographystyle:elsarticle-num
